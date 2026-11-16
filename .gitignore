@@ -1,0 +1,39 @@
+# Datasets and model weights are hosted on Hugging Face and are NOT tracked.
+# Populate ./data/ with: huggingface-cli download xiaomi-research/milyte --local-dir ./data
+data/
+*.pt
+*.pth
+*.npy
+
+# Generated training/evaluation outputs
+runs/
+logs/
+src/downstream/models/outputs/
+
+# Python
+__pycache__/
+*.py[cod]
+$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ipynb_checkpoints
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs / temporary files
+*.log
+*.tmp
+*.bak

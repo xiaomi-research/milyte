@@ -1,0 +1,73 @@
+#
+# Copyright (C) 2026 Xiaomi Corporation.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+# compliance with the License. You may obtain a copy of the License at
+# http://www.apache.org/licenses/LICENSE-2.0
+# Unless required by applicable law or agreed to in writing, software distributed under the License is
+# distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied. See the License for the specific language governing permissions and limitations under the License.
+#
+# Stage I (RDF pretraining) configuration.
+# This file is the single source of truth for pretraining; keys fall back to
+# the defaults in src/downstream/models/rdf_backbone.py if omitted.
+# The values below match src/pretrain/checkpoints/config.json, i.e. the
+# released best_model.pt.
+
+# Data configuration
+data:
+  train_csv: pretrain_rdf_train.csv   # relative to data/pretrain/
+  val_csv: pretrain_rdf_val.csv
+  test_csv: pretrain_rdf_test.csv
+  max_seq_len: 1200                   # max RDF curve length
+
+# Model architecture
+model:
+  num_components: 12                  # recomputed from the CSVs at runtime
+  num_ion_pairs: 12                   # matches the released config; recomputed from the CSVs at runtime
+  component_hidden_dim: 128
+
+  d_model: 256
+  nhead: 8
+  num_layers: 5
+  dim_feedforward: 768
+  dropout: 0.15
+
+  # SE(3)-equivariant intra-molecular branch (RDKit conformers)
+  use_se3_equivariance: true
+  se3_consistency_every: 2
+  se3_pred_consistency_weight: 0.1
+  se3_vec_equivariance_weight: 0.1
+  se3_d_vec: 8
+  se3_num_rbf: 16
+  se3_cutoff: 6.0
+  se3_num_layers: 2
+  rdkit_seed: 0
+
+  # SE(3) denoising auxiliary objective
+  use_se3_denoise: true
+  se3_denoise_every: 2
+  se3_denoise_sigma: 0.3
+  se3_denoise_gamma: 0.1
+
+# Training
+training:
+  batch_size: 24
+  learning_rate: 7.0e-5
+  weight_decay: 5.0e-5
+  num_epochs: 80
+  warmup_epochs: 5
+
+  augment_train: true
+  noise_level: 0.005
+
+  early_stopping_patience: 12
+  min_delta: 0.0005
+
+# Checkpoint output. Relative paths are resolved against the repository root.
+save:
+  save_dir: ./data/checkpoints
+  save_interval: 10
+
+device: cuda       # use --device cpu to override
+seed: 42

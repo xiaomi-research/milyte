@@ -1,0 +1,14 @@
+{
+  "dec": 0,
+  "dmc": 1,
+  "ea": 2,
+  "ec": 3,
+  "emc": 4,
+  "ep": 5,
+  "ma": 6,
+  "pc": 7,
+  "pp": 8,
+  "resname lifs and (name N01 or name S02 or name S03 or name O04 or name O05 or name O06 or name O07 or name F09 or name F0A)": 9,
+  "resname lipf and (name P01 or name F02 or name F03 or name F04 or name F05 or name F06 or name F07)": 10,
+  "vn": 11
+}
